@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test2</title>
+</head>
+<body>
+
+<script type="text/javascript" src="/bib2json/Parser.js"></script>
+<script type="text/javascript">
+
+    var text =
+        '{' +
+            '@article{su2017ferroelectric,\n' +
+            '  title={A Ferroelectric Nonvolatile Processor with 46$$\\backslash$mu $ s System-Level Wake-up Time and 14$$\\backslash$mu $ s Sleep Time for Energy Harvesting Applications},\n' +
+            '  author={Su, Fang and Liu, Yongpan and Wang, Yiqun and Yang, Huazhong},\n' +
+            '  journal={IEEE Transactions on Circuits and Systems I: Regular Papers},\n' +
+            '  volume={64},\n' +
+            '  number={3},\n' +
+            '  pages={596--607},\n' +
+            '  year={2017},\n' +
+            '  publisher={IEEE}\n' +
+            '}\n' +
+        '}';
+    console.log(text);
+    var entries = BibtexParser(text);
+    console.log(entries);
+    console.log(entries.entries[0]);
+    document.write(JSON.stringify(entries.entries, null, ""));
+
+</script>
+
+</body>
+</html>

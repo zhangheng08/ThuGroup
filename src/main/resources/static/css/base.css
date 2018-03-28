@@ -1,0 +1,13 @@
+.base-bg {
+
+    background-color: #e3f2fd;
+
+}
+
+div, p, img, span {
+
+    padding: 0px;
+    margin: 0px;
+    border: 0px dashed powderblue;
+
+}

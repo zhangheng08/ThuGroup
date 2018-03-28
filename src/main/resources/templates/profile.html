@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+    <title>profile</title>
+
+    <link href="https://cdn.firebase.com/libs/firebaseui/2.6.2/firebaseui.css" type="text/css" rel="stylesheet" />
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/base.css" rel="stylesheet"/>
+    <link href="/css/prof.css" rel="stylesheet"/>
+    <link href="/css/loading.css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+    <script type="text/javascript" src="https://cdn.firebase.com/libs/firebaseui/2.6.2/firebaseui.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-storage.js"></script>
+
+
+</head>
+
+<body>
+
+    <div id="mainCon" class="container main-con">
+
+        <div class="row top-bar">
+
+            <div class="col-xs-12 col-md-offset-3 col-md-6 col">
+
+
+
+            </div>
+
+        </div>
+
+        <div class="row content">
+
+            <div class="col-xs-12 col-md-offset-3 col-md-6 col col2">
+
+                <div class="container inner-con">
+
+                    <div class="row">
+
+                        <p class="txt-tl">Profile</p>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-xs-12 col-md-8 user-info">
+
+                            <!--<p class="p-head">fistName</p>
+
+                            <input type="text" class="input-text intpu-enname" id="firstName"/>
+
+                            <p class="p-head">lastName</p>
+
+                            <input type="text" class="input-text intpu-enname" id="lastName"/>-->
+
+                            <div class="name-con">
+
+                                <p class="p-head">firstName</p>
+
+                                <input type="text" class="input-text intpu-enname" id="fName"/>
+
+                            </div>
+                            <div class="name-con name-gap"></div>
+                            <div class="name-con">
+
+                                <p class="p-head">lastName</p>
+
+                                <input type="text" class="input-text intpu-enname" id="lName"/>
+
+                            </div>
+
+                            <p class="p-head">chineseName</p>
+
+                            <input type="text" class="input-text input-enryear" id="chnName"/>
+
+                            <p class="p-head">enrolledYear</p>
+
+                            <input type="text" class="input-text input-enryear" id="enrYear"/>
+
+                            <p class="p-head">brief</p>
+
+                            <input type="text" class="input-text input-enryear" id="brf"/>
+
+                            <p class="p-head">introduction</p>
+
+                            <textarea class="input-text input-textarea" id="intro"></textarea>
+
+                            <p class="p-head">email</p>
+
+                            <input type="text" class="input-text" id="eml"/>
+
+                            <p class="p-head">mobile</p>
+
+                            <input type="text" class="input-text" id="mob"/>
+
+                            <p class="p-head">address</p>
+
+                            <textarea class="input-text input-textarea" id="addr"></textarea>
+
+                            <p class="p-head">position</p>
+
+                            <!--<textarea class="input-text input-textarea" id="bak"></textarea>-->
+
+                            <div class="pos-con">
+
+                                <ul>
+
+                                    <li><input name="position" type="radio" value="faculty" checked/><p>faculty</p></li>
+                                    <li><input name="position" type="radio" value="phd" /><p>phd</p></li>
+                                    <li><input name="position" type="radio" value="master" /><p>master</p></li>
+                                    <li><input name="position" type="radio" value="alumni" /><p>alumni</p></li>
+
+                                </ul>
+
+                            </div>
+
+                            <div class="save-btn-con">
+                                <button id="savePro">save</button>
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12 col-md-4 user-info-pic p-l">
+
+                            <p class="p-head">picture</p>
+
+                            <div id="imgFm" class="img-fm">
+
+                                <img id="imgAva" src="https://firebasestorage.googleapis.com/v0/b/smartsensor-group.appspot.com/o/avatar%2Fuser.jpg?alt=media&token=612cbb19-7509-4de1-8258-72efb839025b"/>
+                                <div id="updateAva" class="update-avatar-ban">
+                                    <p>update your picture</p>
+                                    <div id="picProgress"></div>
+                                </div>
+
+                                <input id="pictureFile" class="paper-url" type="file"/>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="paper-list">
+
+                            <p class="txt-tl">Publications</p>
+
+                            <div class="p-edit"><input type="checkbox" id="checkAll"/></div><div class="p-add"><p id="addPaper">+</p></div>
+
+                            <div id="addArea" class="add-area">
+
+                                <p class="p-head">bibtex</p>
+                                <textarea id="bibtexString"></textarea>
+                                <div class="save-con">
+
+                                    <img src="/imgs/upload.png"/>
+                                    <p class="paper-url" type="text" id="selectFileTri">choose <span style="font-weight: bold">pdf</span> to upload</p>
+                                    <img src="/imgs/del.png" id="delFile0"/>
+
+                                </div>
+                                <div class="save-con">
+
+                                    <img src="/imgs/upload.png"/>
+                                    <p class="paper-url" type="text" id="selectSliderTri">choose <span style="font-weight: bold">slides</span> to upload</p>
+                                    <img src="/imgs/del.png" id="delFile1"/>
+
+                                </div>
+
+                                <input type="file" id="selectFile"/>
+                                <input type="file" id="selectSlider"/>
+                                <div class="save-con"><button id="saveBtn" class="m-l0 m-t15">save</button></div>
+
+                            </div>
+
+                            <div id="paperListCon" class="list">
+
+                                <!--<div class="list-item">
+
+                                    <input type="checkbox" />
+                                    <img src="#"/>
+                                    <p class="t">光电子成像原理在增强现实领域的应用与实现</p>
+                                    <p class="list-item-del">-</p>
+
+                                </div>-->
+
+                            </div>
+
+                            <div class="list-btm"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+<!--    <div class="cropper-con">
+
+        <div class="row">
+
+            <div class="col-xs-12 col-md-6">
+
+
+            </div>
+
+            <div class="col-xs-12 col-md-6">
+
+
+
+            </div>
+
+        </div>
+
+    </div>-->
+
+    <div id="loadCon" class="loading-con">
+
+        <div class="row" style="padding: 0px; margin: 0px">
+
+            <div class="col-xs-12 col-md-6 col-md-offset-3">
+
+                <div class="lds-default">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/check.js"></script>
+    <script type="text/javascript" src="/bib2json/Parser.js"></script>
+    <!--bootstrap-->
+    <!--<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>-->
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <!---->
+
+    <script type="text/javascript">
+
+        var uid;
+        var thesisList = [];
+        var selectedFile = undefined;
+        var selectedSlider = undefined;
+        var isFileSaving = false;
+        var f0bo = false;
+        var f1bo = false;
+
+        var storage = firebase.storage();
+        var storageRef = storage.ref();
+
+        $('#mainCon').hide();
+        $('#loadCon').show();
+
+        firebase.auth().onAuthStateChanged(function(user) {
+
+            if (user) {
+
+                uid = user.uid;
+
+                firebase.database().ref('members/' + uid).on("value", function(snapshot) {
+
+                    var m = snapshot.val();
+
+                    if(m == null) {
+
+                        // User is signed in.
+                        firebase.database().ref('members/' + uid ).set({
+
+                            name:'',
+                            firstName: '',
+                            lastName: '',
+                            chineseName: '',
+                            brief: '',
+                            position: '',
+                            avatar: "https://firebasestorage.googleapis.com/v0/b/smartsensor-group.appspot.com/o/avatar%2Fuser.jpg?alt=media&token=612cbb19-7509-4de1-8258-72efb839025b",
+                            introduction: '',
+                            address: '',
+                            mobile: '',
+                            email: '',
+                            enrolledYear: '',
+                            cv: '',
+                            active:true
+
+                        });
+
+                    } else {
+
+                        $('#fName').val(m.firstName);
+                        $('#lName').val(m.lastName);
+                        $('#chnName').val(m.chineseName);
+                        $('#brf').val(m.brief);
+                        $('#intro').val(m.introduction);
+                        $('#addr').val(m.address);
+                        $('#mob').val(m.mobile);
+                        $('#eml').val(m.email);
+                        $('#enrYear').val(m.enrolledYear);
+                        $('#imgAva').attr("src", m.avatar);
+
+                        switch(m.position) {
+
+                            case 'faculty':
+                                $('input:radio[name=position]')[0].checked = true;
+                                break;
+                            case 'phd':
+                                $('input:radio[name=position]')[1].checked = true;
+                                break;
+                            case 'master':
+                                $('input:radio[name=position]')[2].checked = true;
+                                break;
+                            case 'alumni':
+                                $('input:radio[name=position]')[3].checked = true;
+                                break;
+
+
+                        }
+
+                    }
+
+                    $('#mainCon').show();
+                    $('#loadCon').hide();
+
+                }, function (errorObject) {
+
+                    console.log("The read failed: " + errorObject.code);
+
+                });
+
+                firebase.database().ref('membersBrief/' + uid).on("value", function(snapshot) {
+
+                    var mbf = snapshot.val();
+
+                    if(mbf == null) {
+
+                        firebase.database().ref('membersBrief/' + uid ).set({
+
+                            name:$('#fName').val().toLowerCase() + "-" + $('#lName').val().toLowerCase(),
+                            firstName: $('#fName').val(),
+                            lastName: $('#lName').val(),
+                            brief: $('#brf').val(),
+                            position: "faculty",
+                            avatar: "https://firebasestorage.googleapis.com/v0/b/smartsensor-group.appspot.com/o/avatar%2Fuser.jpg?alt=media&token=612cbb19-7509-4de1-8258-72efb839025b",
+                            enrolledYear: $('#enrYear').val(),
+                            active:true
+
+                        });
+
+                    }
+
+                }, function (errorObject) {
+
+                    console.log("The read failed: " + errorObject.code);
+
+                });
+
+                firebase.database().ref('members/' + uid + '/publications').on("child_added", function(snapshot) {
+
+                    var thisId = snapshot.key;
+
+                    if(snapshot.val()) {
+
+                        var thesis = snapshot.val();
+                        thesis["id"] = thisId;
+                        thesisList.push(thesis);
+
+                        $('#paperListCon').html('');
+
+                        for(var i = thesisList.length - 1; i >= 0; i --) {
+
+                            var type0;
+                            var type1;
+
+                            if(thesisList[i].file0.length != 0) {
+                                var suffix = getSuffix(thesisList[i].file0);
+                                type0 = showType(suffix);
+                            } else {
+                                type0 = 'tran';
+                            }
+
+                            if(thesisList[i].file1.length != 0) {
+                                var suffix = getSuffix(thesisList[i].file1);
+                                type1 = showType(suffix);
+                            } else {
+                                type1 = 'tran';
+                            }
+
+
+                            var innerHtml = "<div class='list-item'>\n" +
+                                "<input type='checkbox' />\n" +
+                                "   <img src='/imgs/cloud.png'/>\n" +
+                                "   <p class='t'>" + thesisList[i].Fields.title + "</p>\n" +
+                                "   <img class='' src='/imgs/" + type0 + ".png' />\n" +
+                                "   <a href='"+ thesisList[i].pdf +"' target='_blank'><p class='list-item-file0'>" + thesisList[i].file0 + "</p></a>\n" +
+                                "   <img class='' src='/imgs/" + type1 + ".png' />\n" +
+                                "   <a href='"+ thesisList[i].slides +"' target='_blank'><p class='list-item-file1'>" + thesisList[i].file1 + "</p></a>\n" +
+                                "   <p class='list-item-time'>" + /*thesisList[i].Fields.year*/"" + "</p>\n" +
+                                "   <p id='rm_" + thesisList[i].id + "' class='list-item-del' onclick='onItemClick(\"" + thesisList[i].id + "\", \"" + thesisList[i].file0 + "\", \"" + thesisList[i].file1 + "\")'>-</p>\n" +
+                                "</div>\n";
+
+                            $('#paperListCon').append(innerHtml);
+                        }
+
+                    }
+
+                });
+
+                firebase.database().ref('members/' + uid + '/publications').on("child_removed", function(snapshot) {
+
+                    var thisId = snapshot.key;
+
+                    if(snapshot.val()) {
+
+                        var thesis = snapshot.val();
+
+                        $('#paperListCon').html('');
+
+                        for(var i = thesisList.length - 1; i >= 0; i --) {
+
+                            if(thisId == thesisList[i].id) {
+
+                                thesisList.splice(i,1);
+                                continue;
+
+                            }
+
+                            var type0;
+                            var type1;
+
+                            if(thesisList[i].file0.length != 0) {
+                                var suffix = getSuffix(thesisList[i].file0);
+                                type0 = showType(suffix);
+                            } else {
+                                type0 = 'tran';
+                            }
+
+                            if(thesisList[i].file1.length != 0) {
+                                var suffix = getSuffix(thesisList[i].file1);
+                                type1 = showType(suffix);
+                            } else {
+                                type1 = 'tran';
+                            }
+
+
+                            var innerHtml = "<div class='list-item'>\n" +
+                                "<input type='checkbox' />\n" +
+                                "   <img src='/imgs/cloud.png'/>\n" +
+                                "   <p class='t'>" + thesisList[i].Fields.title + "</p>\n" +
+                                "   <img class='' src='/imgs/" + type0 + ".png' />\n" +
+                                "   <a href='"+ thesisList[i].pdf +"' target='_blank'><p class='list-item-file0'>" + thesisList[i].file0 + "</p></a>\n" +
+                                "   <img class='' src='/imgs/" + type1 + ".png' />\n" +
+                                "   <a href='"+ thesisList[i].slides +"' target='_blank'><p class='list-item-file1'>" + thesisList[i].file1 + "</p></a>\n" +
+                                "   <p class='list-item-time'>" + /*thesisList[i].Fields.year*/"" + "</p>\n" +
+                                "   <p id='rm_" + thesisList[i].id + "' class='list-item-del' onclick='onItemClick(\"" + thesisList[i].id + "\", \"" + thesisList[i].file0 + "\", \"" + thesisList[i].file1 + "\")'>-</p>\n" +
+                                "</div>\n";
+
+                            $('#paperListCon').append(innerHtml);
+                        }
+
+                    }
+
+                });
+
+            } else {
+
+                // User is signed out.
+
+            }
+
+        });
+
+        function onItemChange(snapshot) {
+
+
+
+        }
+
+        $('#addArea').css('height', '0px');
+
+        $('#addPaper').click(function () {
+
+            if($('#addArea').height() == 0) {
+
+                $('#addArea').css('height', '280px');
+
+            } else {
+
+                $('#addArea').css('height', '0px');
+
+            }
+
+        });
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        $('#saveBtn').click(function () {
+
+
+            var text = $('#bibtexString').val();
+
+            console.log(text);
+            var entries = BibtexParser(text);
+            console.log(entries);
+            console.log(JSON.stringify(entries.entries[0], null, ""));
+            var json = {"p0": entries.entries[0]};
+            console.log(json);
+            console.log(JSON.stringify(json, null, ""));
+            var newPostKey = firebase.database().ref().child('members/' + uid + '/publications').push().key;
+            entries.entries[0]["pdf"] = '';
+            entries.entries[0]["slides"] = '';
+            entries.entries[0]["file0"] = selectedFile == undefined ? '' : selectedFile.name;
+            entries.entries[0]["file1"] = selectedSlider == undefined ? '' : selectedSlider.name;
+
+            firebase.database().ref('members/' + uid + "/publications/" + newPostKey).set(
+                entries.entries[0]
+            );
+
+            if(selectedFile != undefined) {
+
+                toUpload(newPostKey, selectedFile, 0);
+
+            }
+
+            if(selectedSlider != undefined) {
+
+                toUpload(newPostKey, selectedSlider, 1);
+
+            }
+
+
+        });
+
+        function toUpload(key, file, index) {
+
+            var type = getSuffix(file.name);
+
+            var fileRef = storageRef.child('files/[' + uid + ']#[' + key + "]#" + index + "." + type);
+
+            var metadata;
+
+            switch(type) {
+
+                case "pdf":
+                    metadata = {contentType: 'application/pdf'};
+                    break;
+                case "html":
+                    metadata = {contentType: 'text/html'};
+                    break;
+                case "css":
+                    metadata = {contentType: 'text/css'};
+                    break;
+                case "js":
+                    metadata = {contentType: 'text/javascript'};
+                    break;
+                case "txt":
+                    metadata = {contentType: 'text/plain'};
+                    break;
+                case "":
+                case "zip":
+                case "rar":
+                default:
+                    metadata = {contentType: 'application/octet-stream'};
+                    break;
+
+            }
+
+            var uploadTask = fileRef.put(file, metadata);
+
+            uploadTask.on('state_changed', function(snapshot){
+
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+                isFileSaving = true;
+
+                console.log('Upload is ' + progress + '% done');
+
+                switch (snapshot.state) {
+
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+
+                        console.log('Upload is paused');
+
+                        break;
+
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+
+                        console.log('Upload is running');
+
+                        break;
+                }
+
+            }, function(error) {
+
+                // Handle unsuccessful uploads
+                console.log(error);
+
+            }, function() {
+
+                // Handle successful uploads on complete
+                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                var downloadURL = uploadTask.snapshot.downloadURL;
+
+                console.log("file downUrl" + downloadURL);
+
+                var updateObj = undefined;
+
+                switch (index) {
+                    case 0:
+                        updateObj = {pdf:downloadURL, file0:file.name};
+                        break;
+                    case 1:
+                        updateObj = {slides:downloadURL, file1:file.name};
+                        break;
+                }
+
+                firebase.database().ref('members/' + uid + "/publications/" + key).update(
+
+                    updateObj
+
+                );
+
+                file = undefined;
+                isFileSaving = false;
+
+            });
+
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        $("#savePro").click(function () {
+
+
+            firebase.database().ref('members/' + uid).update({
+
+                name:$('#fName').val().toLowerCase() + "-" + $('#lName').val().toLowerCase(),
+                firstName: $('#fName').val(),
+                lastName: $('#lName').val(),
+                chineseName: $('#chnName').val(),
+                brief: $('#brf').val(),
+                position: $('input[name=position]:checked').val(),
+                introduction: $('#intro').val(),
+                address: $('#addr').val(),
+                mobile: $('#mob').val(),
+                email: $('#eml').val(),
+                enrolledYear: $('#enrYear').val(),
+                cv: "/file/unamed-1.pdf",
+                // publications:"",
+                active:true
+
+            });
+
+            firebase.database().ref('membersBrief/' + uid).update({
+
+                name:$('#fName').val().toLowerCase() + "-" + $('#lName').val().toLowerCase(),
+                firstName: $('#fName').val(),
+                lastName: $('#lName').val(),
+                brief: $('#brf').val(),
+                position: $('input[name=position]:checked').val(),
+                enrolledYear: $('#enrYear').val(),
+                active:true
+
+            });
+
+        });
+
+        function onItemClick(id, file0, file1) {
+
+            if(isFileSaving) return;
+
+            if(file0.length == 0 && file1.length == 0) {
+
+                firebase.database().ref('members/' + uid + /publications/ + id).set({
+
+                });
+
+            } else {
+
+                if(file0.length != 0) {
+
+                    var suffix0 = getSuffix(file0, 1);
+                    var desertRef = storageRef.child("files/[" + uid + "]#[" + id + "]#0." + suffix0);
+
+                    desertRef.delete().then(function() {
+                        // File deleted successfully
+                        firebase.database().ref('members/' + uid + /publications/ + id).update({
+                            file0:'',
+                            pdf:''
+                        });
+                        f0bo = true;
+
+                        firebase.database().ref('members/' + uid + /publications/ + id).set({
+
+                        });
+
+                    }).catch(function(error) {
+                        // Uh-oh, an error occurred!
+                        f0bo = false;
+                        JSON.stringify(error, null, "");
+                    });
+
+                } else {
+
+                    f0bo = true;
+
+                }
+
+                if(file1.length != 0) {
+
+                    var suffix1 = getSuffix(file1, 1);
+                    var desertRef = storageRef.child("files/[" + uid + "]#[" + id + "]#1." + suffix1);
+
+                    desertRef.delete().then(function() {
+                        // File deleted successfully
+                        firebase.database().ref('members/' + uid + /publications/ + id).update({
+                            file1:'',
+                            slides:''
+                        });
+                        f1bo = true;
+
+                        firebase.database().ref('members/' + uid + /publications/ + id).set({
+
+                        });
+
+                    }).catch(function(error) {
+                        // Uh-oh, an error occurred!
+                        f1bo = false;
+                        JSON.stringify(error, null, "");
+                    });
+
+                } else {
+                    f1bo = true;
+                }
+
+            }
+
+        }
+        
+        $("#pictureFile").change(function(){
+
+            var file = this.files[0];
+
+            var type = getSuffix(file.name, 0);
+
+            var avatarImgRef = storageRef.child('avatar/' + uid + '.' + type);
+
+            var metadata = {
+                contentType: 'image/' + type,
+            };
+
+            var uploadTask = avatarImgRef.put(file, metadata);
+
+            uploadTask.on('state_changed', function(snapshot){
+
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+                console.log('Upload is ' + progress + '% done');
+
+                $('#picProgress').css('width', '' + progress + '%');
+
+                if(progress == 100) {
+
+                    $("#updateAva").hide();
+                    $('#picProgress').css('width', '' + 0 + '%');
+
+                } else {
+
+                    $("#updateAva").show();
+
+                }
+
+                switch (snapshot.state) {
+
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+
+                            console.log('Upload is paused');
+
+                            break;
+
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+
+                            console.log('Upload is running');
+
+                            break;
+                }
+
+            }, function(error) {
+
+                // Handle unsuccessful uploads
+                console.log(error);
+
+            }, function() {
+
+                // Handle successful uploads on complete
+                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                var downloadURL = uploadTask.snapshot.downloadURL;
+                $('#imgAva').attr("src", downloadURL);
+
+                console.log("avatar downUrl" + downloadURL);
+
+                firebase.database().ref('members/' + uid).update({
+
+                    avatar: downloadURL
+
+                });
+
+                firebase.database().ref('membersBrief/' + uid).update({
+
+                    avatar: downloadURL
+
+                });
+
+
+            });
+
+        });
+
+        $('#updateAva').hide();
+        $('#pictureFile').hide();
+        $('#selectFile').hide();
+        $('#selectSlider').hide();
+
+        $('#updateAva').click(function () {
+
+            $('#pictureFile').click();
+
+        });
+
+        $("#imgFm").bind("mouseenter mouseleave",function(e) {
+            if(e.type == 'mouseenter'){
+                $("#updateAva").show();
+            }else{
+                $('#updateAva').hide();
+            }
+        });
+
+        $('#delFile0').click(function () {
+
+            selectedFile = undefined;
+            $('#selectFileTri').html('');
+
+        });
+
+        $('#delFile1').click(function () {
+
+            selectedSlider = undefined;
+            $('#selectSliderTri').html('');
+
+        });
+
+
+        $('#selectFileTri').click(function () {
+
+            $('#selectFile').click();
+
+        });
+
+        $('#selectSliderTri').click(function () {
+
+            $('#selectSlider').click();
+
+        });
+
+        $("#selectFile").change(function(){
+
+            selectedFile = this.files[0];
+
+            $('#selectFileTri').text(selectedFile.name);
+
+            $('#selectFileTri').val(selectedFile.name);
+
+            /*if (window.FileReader) {
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onloadend = function (e) {
+                    $('#imgAva').attr("src", e.target.result);    //e.target.result就是最后的路径地址
+                    console.log(e.target.result);
+
+                    firebase.database().ref('users/' + uid).update({
+
+
+
+                    });
+                };
+            }*/
+
+        });
+
+        $("#selectSlider").change(function(){
+
+            selectedSlider = this.files[0];
+
+            $('#selectSliderTri').text(selectedSlider.name);
+
+            $('#selectFileTri').val(selectedSlider.name);
+
+        });
+
+        function getSuffix(fileName, type) {
+
+            var suffix;
+
+            var img = 0;
+            var file = 1;
+
+            try {
+
+                suffix = fileName.split('.')[1];
+
+            }
+            catch(error) {
+                console.error(error);
+                suffix = "";
+                switch (type) {
+
+                    case img :
+                        suffix = 'jpg';
+                        break;
+
+                    case file:
+                        suffix = '';
+                        break;
+
+                }
+            }
+
+            return suffix.toLowerCase();
+
+        }
+
+        function showType(suffix) {
+
+            var type = suffix;
+
+            switch(suffix) {
+
+                case "pdf":
+                    type = "pdf";
+                    break;
+                case "css":
+                    type = "css";
+                    break;
+                case "doc":
+                    type = "doc";
+                    break;
+                case "gif":
+                    type = "gif";
+                    break;
+                case "html":
+                    type = "html";
+                    break;
+                case "jpg":
+                    type = "jpg";
+                    break;
+                case "js":
+                    type = "js";
+                    break;
+                case "txt":
+                    type = "notes";
+                    break;
+                case "php":
+                    type = "php";
+                    break;
+                case "xls":
+                case "xlsx":
+                    type = "xls";
+                    break;
+                case "png":
+                    type = "png";
+                    break;
+                case "doc":
+                case "docx":
+                    type = "doc";
+                    break;
+                case "zip":
+                case "rar":
+                    type = "zip";
+                    break;
+                case "":
+                default:
+                    type = "cloud";
+                    break;
+
+            }
+
+            return type;
+
+        }
+
+
+    </script>
+
+</body>
+
+</html>
